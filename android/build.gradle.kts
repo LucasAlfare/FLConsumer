@@ -7,8 +7,8 @@ plugins {
 }
 
 dependencies {
-  val `lucasalfare_fllistening_version`: String by project
-  val `lucasalfare_flbinary_version`: String by project
+  val lucasalfare_fllistening_version: String by project
+  val lucasalfare_flbinary_version: String by project
   val ktor_version: String by project
 
   implementation("androidx.activity:activity-compose:1.7.2")
