@@ -83,6 +83,7 @@ fun App() {
   }
 }
 
+//TODO: move state data to params?
 @Composable
 fun Header() {
   Column {
@@ -117,39 +118,42 @@ fun Header() {
     }
 
     Row(modifier = Modifier.padding(4.dp)) {
-      Text(text = buildAnnotatedString {
-        withStyle(SpanStyle()) {
-          append("Repositories: ")
-        }
+      Text(
+        text = buildAnnotatedString {
+          withStyle(SpanStyle()) {
+            append("Repositories: ")
+          }
 
-        withStyle(
-          SpanStyle(
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.Monospace
-          )
-        ) {
-          append("${State.currentNumberOfRepositories.value}")
-        }
+          withStyle(
+            SpanStyle(
+              fontWeight = FontWeight.Bold,
+              fontFamily = FontFamily.Monospace
+            )
+          ) {
+            append("${State.currentNumberOfRepositories.value}")
+          }
 
-      })
+        }
+      )
 
       Spacer(modifier = Modifier.width(16.dp))
 
-      Text(text = buildAnnotatedString {
-        withStyle(SpanStyle()) {
-          append("Followers: ")
-        }
+      Text(
+        text = buildAnnotatedString {
+          withStyle(SpanStyle()) {
+            append("Followers: ")
+          }
 
-        withStyle(
-          SpanStyle(
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.Monospace
-          )
-        ) {
-          append("${State.currentNumberOfFollowers.value}")
+          withStyle(
+            SpanStyle(
+              fontWeight = FontWeight.Bold,
+              fontFamily = FontFamily.Monospace
+            )
+          ) {
+            append("${State.currentNumberOfFollowers.value}")
+          }
         }
-
-      })
+      )
     }
   }
 }
