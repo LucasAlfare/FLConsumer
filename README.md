@@ -13,3 +13,11 @@ This example was made in order to use:
 - My own custom event listening library [`FLListening`](https://github.com/LucasAlfare/FLListening) to help decouple UI from backend/model management.
 
 All of those implementations versions can be detailed reviewed in the [build.gradle.kts](https://github.com/LucasAlfare/FLConsumer/blob/master/android/build.gradle.kts#L9) file.
+
+# Emulator screenshots
+
+- Seraching for `LucasAlfare` user:
+![main screen view](img/ss1.png)
+
+- Seraching for `JetBrains` user:
+![main screen view](img/ss2.png)
