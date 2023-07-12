@@ -1,5 +1,6 @@
 package com.lucasalfare.flconsumer.core
 
+import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import com.lucasalfare.fllistener.EventManageable
 import io.ktor.client.*
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 
+const val API_URL_PREFIX = "https://api.github.com/users/"
 private val myClient = HttpClient(CIO)
 
 class ApiManager : EventManageable() {
@@ -31,23 +33,54 @@ class ApiManager : EventManageable() {
 
   override fun onEvent(event: Any, data: Any?, origin: Any?) {
     if (event == "api-request") {
-      val targetUrl = data as String
-      performRequest(targetUrl) {
-        val txt = it.bodyAsText()
-        val root = JsonParser.parseString(txt).asJsonObject
+      val targetUser = data as String
+      performRequest("$API_URL_PREFIX$targetUser") { response ->
+        response.bodyAsText().let { txt ->
+          val root = JsonParser.parseString(txt).asJsonObject
 
-        try {
-          //TODO: These assignments should be individually checked to avoid null erros
-          State.currentAvatarUrl.value = root.get("avatar_url").asString
-          State.currentUserNickName.value = root.get("login").asString
-          State.currentUserRealName.value = root.get("name").asString
-          State.currentUserBio.value = root.get("bio").asString
-          State.currentNumberOfRepositories.value = root.get("public_repos").asInt
-          State.currentNumberOfFollowers.value = root.get("followers").asInt
+          if (root.has("avatar_url")) {
+            root.get("avatar_url").let {
+              State.currentAvatarUrl.value =
+                if (!it.isJsonNull) it.asString else ""
+            }
+          }
+
+          if (root.has("login")) {
+            root.get("login").let {
+              State.currentUserNickName.value =
+                if (!it.isJsonNull) it.asString else ""
+            }
+          }
+
+          if (root.has("name")) {
+            root.get("name").let {
+              State.currentUserRealName.value =
+                if (!it.isJsonNull) it.asString else ""
+            }
+          }
+
+          if (root.has("bio")) {
+            root.get("bio").let {
+              State.currentUserBio.value =
+                if (!it.isJsonNull) it.asString else ""
+            }
+          }
+
+          if (root.has("public_repos")) {
+            root.get("public_repos").let {
+              State.currentNumberOfRepositories.value =
+                if (!it.isJsonNull) it.asInt else 0
+            }
+          }
+
+          if (root.has("followers")) {
+            root.get("followers").let {
+              State.currentNumberOfFollowers.value =
+                if (!it.isJsonNull) it.asInt else 0
+            }
+          }
 
           notifyListeners("api-fetched")
-        } catch (e: Exception) {
-          notifyListeners("api-fetch-error")
         }
       }
     }

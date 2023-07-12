@@ -55,7 +55,7 @@ fun App() {
             apiResultCode = 0
             uiManager.notifyListeners(
               event = "api-request",
-              data = "https://api.github.com/users/${targetNickName}"
+              data = targetNickName
             )
           }
         },
