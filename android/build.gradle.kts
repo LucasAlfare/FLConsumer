@@ -1,4 +1,4 @@
-@file:Suppress("LocalVariableName", "RemoveRedundantBackticks")
+@file:Suppress("LocalVariableName")
 
 plugins {
   kotlin("android")
