@@ -14,7 +14,7 @@ This example was made in order to use:
 
 All of those implementations versions can be detailed reviewed in the [build.gradle.kts](https://github.com/LucasAlfare/FLConsumer/blob/master/android/build.gradle.kts#L9) file.
 
-# Emulator screenshots
+# Android Emulator Screenshots
 
 - Seraching for `LucasAlfare` user:
 ![main screen view](img/ss1.png)
