@@ -1,6 +1,8 @@
 package com.lucasalfare.flconsumer.core
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 
 /**
  * This structure holds all the data that UI is whatching on.
@@ -18,12 +20,12 @@ class State {
      */
     class Header {
       companion object {
-        var currentAvatarUrl = mutableStateOf("")
-        var currentUserNickName = mutableStateOf(":USER_NICKNAME:")
-        var currentUserRealName = mutableStateOf(":REAL_NAME:")
-        var currentUserBio = mutableStateOf(":BIO:")
-        var currentNumberOfRepositories = mutableStateOf(0)
-        var currentNumberOfFollowers = mutableStateOf(0)
+        var currentAvatarUrl by mutableStateOf("")
+        var currentLogin by mutableStateOf("")
+        var currentName by mutableStateOf("")
+        var currentBio by mutableStateOf("")
+        var currentPublicRepos by mutableStateOf(0)
+        var currentFollowers by mutableStateOf(0)
       }
     }
   }

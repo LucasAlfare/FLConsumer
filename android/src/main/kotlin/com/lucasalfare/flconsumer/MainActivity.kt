@@ -14,7 +14,16 @@ import com.lucasalfare.fllistener.CallbacksManager
 import com.lucasalfare.fllistener.setupManagers
 
 
+/**
+ * Global field to provide to the UI communication with another
+ * managers through the application flow.
+ *
+ * This must be stored in a field instead an annonimous object
+ * in order to expose itself to other parts of the code of
+ * this UI access it as well.
+ */
 val uiManager = CallbacksManager()
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +31,9 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
 
     setContent {
+      // before showing the app composables, just
+      // sets ups the internal managers, thourgh
+      // this side effect
       LaunchedEffect(true) {
         setupManagers(
           uiManager,
@@ -40,11 +52,6 @@ class MainActivity : AppCompatActivity() {
 
   override fun onStop() {
     super.onStop()
-    uiManager.notifyListeners("client-dispose")
-  }
-
-  override fun onPause() {
-    super.onPause()
     uiManager.notifyListeners("client-dispose")
   }
 }

@@ -16,7 +16,7 @@ data class UserInfoModel(
 )
 
 /**
- * This function for all needed fields and also checks if those fields are not null.
+ * This function searches for all needed fields and also checks if those fields are not null.
  * If those checkings are valid, then store its values in a holder data class, which
  * is properly returned.
  *

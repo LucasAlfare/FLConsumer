@@ -37,12 +37,12 @@ class ApiManager : EventManageable() {
           val root = JsonParser.parseString(it).asJsonObject
           val userInfoModel = getUserInfoModelFor(root)
 
-          State.Companion.Header.currentAvatarUrl.value = userInfoModel.avatarUrl
-          State.Companion.Header.currentUserNickName.value = userInfoModel.login
-          State.Companion.Header.currentUserRealName.value = userInfoModel.name
-          State.Companion.Header.currentUserBio.value = userInfoModel.bio
-          State.Companion.Header.currentNumberOfRepositories.value = userInfoModel.publicRepos
-          State.Companion.Header.currentNumberOfFollowers.value = userInfoModel.followers
+          State.Companion.Header.currentAvatarUrl = userInfoModel.avatarUrl
+          State.Companion.Header.currentLogin = userInfoModel.login
+          State.Companion.Header.currentName = userInfoModel.name
+          State.Companion.Header.currentBio = userInfoModel.bio
+          State.Companion.Header.currentPublicRepos = userInfoModel.publicRepos
+          State.Companion.Header.currentFollowers = userInfoModel.followers
 
           notifyListeners("api-fetched")
         }
