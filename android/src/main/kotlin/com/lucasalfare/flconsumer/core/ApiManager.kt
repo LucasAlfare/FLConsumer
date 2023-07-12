@@ -37,6 +37,7 @@ class ApiManager : EventManageable() {
         val root = JsonParser.parseString(txt).asJsonObject
 
         try {
+          //TODO: These assignments should be individually checked to avoid null erros
           State.currentAvatarUrl.value = root.get("avatar_url").asString
           State.currentUserNickName.value = root.get("login").asString
           State.currentUserRealName.value = root.get("name").asString
