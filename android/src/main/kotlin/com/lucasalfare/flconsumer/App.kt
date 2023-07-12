@@ -21,6 +21,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.lucasalfare.flconsumer.core.State
 
+
+/**
+ * The only pruporse of App is read and show up state fields values and collect inputs (and notify those inputs to core/backend, as well)
+ */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun App() {
@@ -86,7 +90,7 @@ fun App() {
 
 //TODO: move state data to params?
 @Composable
-fun Header() {
+private fun Header() {
   Column {
     Row(modifier = Modifier.fillMaxWidth()) {
       Box(modifier = Modifier.size(120.dp).background(Color.Gray)) {
