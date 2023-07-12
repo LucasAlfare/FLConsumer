@@ -13,6 +13,7 @@ import com.lucasalfare.flconsumer.core.State
 import com.lucasalfare.fllistener.CallbacksManager
 import com.lucasalfare.fllistener.setupManagers
 
+
 val uiManager = CallbacksManager()
 
 class MainActivity : AppCompatActivity() {
