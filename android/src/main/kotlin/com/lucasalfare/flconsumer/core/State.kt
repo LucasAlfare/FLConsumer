@@ -10,8 +10,9 @@ import androidx.compose.runtime.setValue
  * Changing any value of these fields will make UI recomponse,
  * in other words, the UI will be redrawn with the newest values
  * from here, at least the composables that are whatching then.
+ *
+ * TODO: find a way to refactor this tree as an Object
  */
-// TODO: find a way to refactor this tree as an Object
 class State {
   companion object {
 
