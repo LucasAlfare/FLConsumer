@@ -1,6 +1,5 @@
 package com.lucasalfare.flconsumer.core
 
-import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import com.lucasalfare.fllistener.EventManageable
 import io.ktor.client.*
@@ -11,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 
 const val API_URL_PREFIX = "https://api.github.com/users/"
@@ -35,50 +33,16 @@ class ApiManager : EventManageable() {
     if (event == "api-request") {
       val targetUser = data as String
       performRequest("$API_URL_PREFIX$targetUser") { response ->
-        response.bodyAsText().let { txt ->
-          val root = JsonParser.parseString(txt).asJsonObject
+        response.bodyAsText().let {
+          val root = JsonParser.parseString(it).asJsonObject
+          val userInfoModel = getUserInfoModelFor(root)
 
-          if (root.has("avatar_url")) {
-            root.get("avatar_url").let {
-              State.currentAvatarUrl.value =
-                if (!it.isJsonNull) it.asString else ""
-            }
-          }
-
-          if (root.has("login")) {
-            root.get("login").let {
-              State.currentUserNickName.value =
-                if (!it.isJsonNull) it.asString else ""
-            }
-          }
-
-          if (root.has("name")) {
-            root.get("name").let {
-              State.currentUserRealName.value =
-                if (!it.isJsonNull) it.asString else ""
-            }
-          }
-
-          if (root.has("bio")) {
-            root.get("bio").let {
-              State.currentUserBio.value =
-                if (!it.isJsonNull) it.asString else ""
-            }
-          }
-
-          if (root.has("public_repos")) {
-            root.get("public_repos").let {
-              State.currentNumberOfRepositories.value =
-                if (!it.isJsonNull) it.asInt else 0
-            }
-          }
-
-          if (root.has("followers")) {
-            root.get("followers").let {
-              State.currentNumberOfFollowers.value =
-                if (!it.isJsonNull) it.asInt else 0
-            }
-          }
+          State.Companion.Header.currentAvatarUrl.value = userInfoModel.avatarUrl
+          State.Companion.Header.currentUserNickName.value = userInfoModel.login
+          State.Companion.Header.currentUserRealName.value = userInfoModel.name
+          State.Companion.Header.currentUserBio.value = userInfoModel.bio
+          State.Companion.Header.currentNumberOfRepositories.value = userInfoModel.publicRepos
+          State.Companion.Header.currentNumberOfFollowers.value = userInfoModel.followers
 
           notifyListeners("api-fetched")
         }

@@ -23,26 +23,26 @@ fun Header() {
     Row(modifier = Modifier.fillMaxWidth()) {
       Box(modifier = Modifier.size(120.dp).background(Color.Gray)) {
         AsyncImage(
-          model = State.currentAvatarUrl.value,
+          model = State.Companion.Header.currentAvatarUrl.value,
           contentDescription = null
         )
       }
 
       Column {
         Text(
-          text = State.currentUserNickName.value,
+          text = State.Companion.Header.currentUserNickName.value,
           fontSize = 35.sp,
           modifier = Modifier.padding(4.dp)
         )
 
         Text(
-          text = State.currentUserRealName.value,
+          text = State.Companion.Header.currentUserRealName.value,
           fontSize = 16.sp,
           modifier = Modifier.padding(4.dp)
         )
 
         Text(
-          text = State.currentUserBio.value,
+          text = State.Companion.Header.currentUserBio.value,
           fontSize = 12.sp,
           color = Color.Gray,
           modifier = Modifier.padding(4.dp)
@@ -63,9 +63,8 @@ fun Header() {
               fontFamily = FontFamily.Monospace
             )
           ) {
-            append("${State.currentNumberOfRepositories.value}")
+            append("${State.Companion.Header.currentNumberOfRepositories.value}")
           }
-
         }
       )
 
@@ -83,7 +82,7 @@ fun Header() {
               fontFamily = FontFamily.Monospace
             )
           ) {
-            append("${State.currentNumberOfFollowers.value}")
+            append("${State.Companion.Header.currentNumberOfFollowers.value}")
           }
         }
       )
