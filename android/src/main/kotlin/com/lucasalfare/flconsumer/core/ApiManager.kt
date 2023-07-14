@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 const val API_URL_PREFIX = "https://api.github.com/users/"
 private val myClient = HttpClient(CIO)
 
+
 class ApiManager : EventManageable() {
 
   init {
@@ -37,12 +38,23 @@ class ApiManager : EventManageable() {
           val root = JsonParser.parseString(it).asJsonObject
           val userInfoModel = getUserInfoModelFor(root)
 
-          State.Companion.Header.currentAvatarUrl = userInfoModel.avatarUrl
-          State.Companion.Header.currentLogin = userInfoModel.login
-          State.Companion.Header.currentName = userInfoModel.name
-          State.Companion.Header.currentBio = userInfoModel.bio
-          State.Companion.Header.currentPublicRepos = userInfoModel.publicRepos
-          State.Companion.Header.currentFollowers = userInfoModel.followers
+          State.Companion.Header.currentAvatarUrl =
+            userInfoModel.jsonProperties[JsonPropertyName.AvatarUrl]!!.value as String
+
+          State.Companion.Header.currentLogin =
+            userInfoModel.jsonProperties[JsonPropertyName.Login]!!.value as String
+
+          State.Companion.Header.currentName =
+            userInfoModel.jsonProperties[JsonPropertyName.Name]!!.value as String
+
+          State.Companion.Header.currentBio =
+            userInfoModel.jsonProperties[JsonPropertyName.Bio]!!.value as String
+
+          State.Companion.Header.currentPublicRepos =
+            userInfoModel.jsonProperties[JsonPropertyName.PublicRepos]!!.value as Int
+
+          State.Companion.Header.currentFollowers =
+            userInfoModel.jsonProperties[JsonPropertyName.Followers]!!.value as Int
 
           notifyListeners("api-fetched")
         }
@@ -59,7 +71,7 @@ fun performRequest(
   url: String = "https://api.github.com/users/LucasAlfare",
   onResponseReceived: suspend (HttpResponse) -> Unit = {}
 ) {
-  CoroutineScope(Job()).launch  {
+  CoroutineScope(Job()).launch {
     val response = myClient.get(url)
     onResponseReceived(response)
     this.cancel("The URL request was performed.")
