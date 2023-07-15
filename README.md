@@ -17,21 +17,21 @@ All of those implementations versions can be detailed reviewed in the [build.gra
 
 # Data retrieved
 
-The main data extracted from the API JSON response is:
+With the main JSON response in hands, the data extract from it is:
 - Avatar URL;
-- Long;
+- Login;
 - Name;
 - Public Repos;
 - Followers.
 
-This example is in progress and should be improved by collecting data about specific public user projects, making then be listed in UI, as well.
+This example is in progress and should be improved by collecting more data about, e.g., specific public user repositories, making then be listed in UI, as well.
 
 # Android Emulator Screenshots
 
 - Seraching for `LucasAlfare` user:
-![main screen view](img/ss1.png)
+<img src="img/ss1.png" width="600" height="300">
 
 - Seraching for `JetBrains` user:
-![main screen view](img/ss2.png)
+<img src="img/ss2.png" width="600" height="300">
 
 # [License](https://github.com/LucasAlfare/FLConsumer/blob/master/LICENSE)
