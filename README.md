@@ -1,6 +1,6 @@
 # FLConsumer
 
-This is my own experiment in creating an application to consume an external API. In this example, was chosen the GitHub API itself, where we take data from it and populate a basic User Interface with that information.
+This is my own experiment in creating an application that consumes an external API. In this example, was chosen the _GitHub API_ itself, where we take data from it and populate a basic User Interface with that information.
 
 Also, at this point, this application example, works by providing basic information about GitHub users. This is achieved by entenring the GitHub login name of the user and, if it exists, the basic information is shown below the input form.
 
