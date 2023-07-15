@@ -14,6 +14,17 @@ This example was made in order to use:
 
 All of those implementations versions can be detailed reviewed in the [build.gradle.kts](https://github.com/LucasAlfare/FLConsumer/blob/master/android/build.gradle.kts#L9) file.
 
+# Data retrieved
+
+The main data extracted from the API JSON response is:
+- Avatar URL;
+- Long;
+- Name;
+- Public Repos;
+- Followers.
+
+This example is in progress and should be improved by collecting data about specific public user projects, making then be listed in UI, as well.
+
 # Android Emulator Screenshots
 
 - Seraching for `LucasAlfare` user:
