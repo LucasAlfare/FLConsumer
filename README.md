@@ -10,7 +10,8 @@ This example was made in order to use:
 
 - [`Ktor`](https://ktor.io/) dependencies as the main client provider;
 - [`gson`](https://github.com/google/gson) to parse the JSON responses;
-- My own custom event listening library [`FLListening`](https://github.com/LucasAlfare/FLListening) to help decouple UI from backend/model management.
+- [`Coil`](https://coil-kt.github.io/coil/compose/) library, to help load images asynchronously inside the composables tree;
+- My own custom event listening library [`FLListening`](https://github.com/LucasAlfare/FLListening), to help decouple UI from backend/model management.
 
 All of those implementations versions can be detailed reviewed in the [build.gradle.kts](https://github.com/LucasAlfare/FLConsumer/blob/master/android/build.gradle.kts#L9) file.
 
