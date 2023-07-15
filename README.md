@@ -21,3 +21,5 @@ All of those implementations versions can be detailed reviewed in the [build.gra
 
 - Seraching for `JetBrains` user:
 ![main screen view](img/ss2.png)
+
+# [License](https://github.com/LucasAlfare/FLConsumer/blob/master/LICENSE)
