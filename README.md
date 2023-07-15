@@ -13,7 +13,7 @@ This example was made in order to use:
 - [`Coil`](https://coil-kt.github.io/coil/compose/) library, to help load images asynchronously inside the composables tree;
 - My own custom event listening library [`FLListening`](https://github.com/LucasAlfare/FLListening), to help decouple UI from backend/model management.
 
-All of those implementations versions can be detailed reviewed in the [build.gradle.kts](https://github.com/LucasAlfare/FLConsumer/blob/master/android/build.gradle.kts#L9) file, from `android` module.
+All of those implementations versions can be detailed reviewed in the [build.gradle.kts](https://github.com/LucasAlfare/FLConsumer/blob/master/android/build.gradle.kts#L9) file, from the `android` module.
 
 # Data retrieved
 
