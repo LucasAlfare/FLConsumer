@@ -11,11 +11,19 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-
+/**
+ * The root API prefix to be called when requesting data of.
+ */
 const val API_URL_PREFIX = "https://api.github.com/users/"
+
+/**
+ * The main HTTP connector, provided by the Ktor dependency.
+ */
 private val myClient = HttpClient(CIO)
 
-
+/**
+ * Manages the input and output of events that comes and needs to go to the UI.
+ */
 class ApiManager : EventManageable() {
 
   init {
@@ -38,6 +46,7 @@ class ApiManager : EventManageable() {
           val root = JsonParser.parseString(it).asJsonObject
           val userInfoModel = getUserInfoModelFor(root)
 
+          // just updates observable state static fields
           State.Companion.Header.currentAvatarUrl =
             userInfoModel.jsonProperties[JsonPropertyName.AvatarUrl]!!.value as String
 
@@ -67,6 +76,11 @@ class ApiManager : EventManageable() {
   }
 }
 
+/**
+ * Performs a call to a particular API url, using the main HTTP client.
+ * Also takes a function callback to be executed when the response was
+ * succsessful received.
+ */
 fun performRequest(
   url: String = "https://api.github.com/users/LucasAlfare",
   onResponseReceived: suspend (HttpResponse) -> Unit = {}
