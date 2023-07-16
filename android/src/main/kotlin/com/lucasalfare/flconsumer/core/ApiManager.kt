@@ -1,6 +1,5 @@
 package com.lucasalfare.flconsumer.core
 
-import com.google.gson.JsonParser
 import com.lucasalfare.fllistener.EventManageable
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -26,6 +25,8 @@ private val myClient = HttpClient(CIO)
  */
 class ApiManager : EventManageable() {
 
+  private var tmpUserReposUrl = ""
+
   init {
     initiated = true
   }
@@ -41,37 +42,59 @@ class ApiManager : EventManageable() {
   override fun onEvent(event: Any, data: Any?, origin: Any?) {
     if (event == "api-request") {
       val targetUser = data as String
-      performRequest("$API_URL_PREFIX$targetUser") { response ->
-        response.bodyAsText().let {
-          val root = JsonParser.parseString(it).asJsonObject
-          val userInfoModel = getUserInfoModelFor(root)
-
-          // just updates observable state static fields
-          State.Companion.Header.currentAvatarUrl =
-            userInfoModel.jsonProperties[JsonPropertyName.AvatarUrl]!!.value as String
-
-          State.Companion.Header.currentLogin =
-            userInfoModel.jsonProperties[JsonPropertyName.Login]!!.value as String
-
-          State.Companion.Header.currentName =
-            userInfoModel.jsonProperties[JsonPropertyName.Name]!!.value as String
-
-          State.Companion.Header.currentBio =
-            userInfoModel.jsonProperties[JsonPropertyName.Bio]!!.value as String
-
-          State.Companion.Header.currentPublicRepos =
-            userInfoModel.jsonProperties[JsonPropertyName.PublicRepos]!!.value as Int
-
-          State.Companion.Header.currentFollowers =
-            userInfoModel.jsonProperties[JsonPropertyName.Followers]!!.value as Int
-
-          notifyListeners("api-fetched")
-        }
-      }
+      handleUserInfoRequest(targetUser)
     }
 
     if (event == "client-dispose") {
       myClient.close()
+    }
+  }
+
+  private fun handleUserInfoRequest(targetUser: String) {
+    performRequest(
+      url = "$API_URL_PREFIX$targetUser",
+      onPreRequest = { notifyListeners("api-pre-request") }
+    ) { response ->
+      //TODO: validate response before parse
+
+      val jsonObject = jsonTextAsJsonObject(responseToText(response))
+      getModelFor(jsonObject, "user").forEach {
+        when (it.jsonPropertyName) {
+          JsonPropertyName.AvatarUrl -> State.Companion.Header.currentAvatarUrl = it.value as String
+          JsonPropertyName.Login -> State.Companion.Header.currentLogin = it.value as String
+          JsonPropertyName.Name -> State.Companion.Header.currentName = it.value as String
+          JsonPropertyName.Bio -> State.Companion.Header.currentBio = it.value as String
+          JsonPropertyName.Followers -> State.Companion.Header.currentFollowers = it.value as Int
+          JsonPropertyName.PublicRepos -> State.Companion.Header.currentPublicRepos = it.value as Int
+
+          JsonPropertyName.ReposUrl -> handleReposRequest(it.value as String)
+          else -> {}
+        }
+      }
+    }
+  }
+
+  private fun handleReposRequest(reposUrl: String) {
+    performRequest(reposUrl) { response ->
+      val jsonArray = jsonTextAsJsonArray(responseToText(response))
+      State.Companion.Repos.currentRepos.clear()
+
+      getModelsFor(jsonArray, "repo").forEach { repoModel ->
+        val nextRepoData = State.Companion.Repos.Companion.RepoData()
+        repoModel.forEach {
+          when (it.jsonPropertyName) {
+            JsonPropertyName.RepoName -> nextRepoData.name = it.value as String
+            JsonPropertyName.RepoDescription -> nextRepoData.description = it.value as String
+            JsonPropertyName.RepoStargazersCount -> nextRepoData.stargazersCount = it.value as Int
+            JsonPropertyName.RepoForksCount -> nextRepoData.forksCount = it.value as Int
+            else -> {}
+          }
+        }
+
+        State.Companion.Repos.currentRepos += nextRepoData
+      }
+
+      notifyListeners("api-fetched")
     }
   }
 }
@@ -83,8 +106,11 @@ class ApiManager : EventManageable() {
  */
 fun performRequest(
   url: String = "https://api.github.com/users/LucasAlfare",
+  onPreRequest: () -> Unit = {},
   onResponseReceived: suspend (HttpResponse) -> Unit = {}
 ) {
+  onPreRequest()
+
   CoroutineScope(Job()).launch {
     val response = myClient.get(url)
     onResponseReceived(response)

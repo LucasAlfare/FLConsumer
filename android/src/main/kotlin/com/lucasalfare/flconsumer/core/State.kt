@@ -1,6 +1,7 @@
 package com.lucasalfare.flconsumer.core
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
@@ -27,6 +28,19 @@ class State {
         var currentBio by mutableStateOf("")
         var currentPublicRepos by mutableStateOf(0)
         var currentFollowers by mutableStateOf(0)
+      }
+    }
+
+    class Repos {
+      companion object {
+        val currentRepos = mutableStateListOf<RepoData>()
+
+        data class RepoData(
+          var name: String = "",
+          var description: String = "",
+          var stargazersCount: Int = 0,
+          var forksCount: Int = 0
+        )
       }
     }
   }

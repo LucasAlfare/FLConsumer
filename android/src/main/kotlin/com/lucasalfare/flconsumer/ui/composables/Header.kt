@@ -54,25 +54,6 @@ fun Header() {
       Text(
         text = buildAnnotatedString {
           withStyle(SpanStyle()) {
-            append("Repositories: ")
-          }
-
-          withStyle(
-            SpanStyle(
-              fontWeight = FontWeight.Bold,
-              fontFamily = FontFamily.Monospace
-            )
-          ) {
-            append("${State.Companion.Header.currentPublicRepos}")
-          }
-        }
-      )
-
-      Spacer(modifier = Modifier.width(16.dp))
-
-      Text(
-        text = buildAnnotatedString {
-          withStyle(SpanStyle()) {
             append("Followers: ")
           }
 
@@ -83,6 +64,25 @@ fun Header() {
             )
           ) {
             append("${State.Companion.Header.currentFollowers}")
+          }
+        }
+      )
+
+      Spacer(modifier = Modifier.width(16.dp))
+
+      Text(
+        text = buildAnnotatedString {
+          withStyle(SpanStyle()) {
+            append("Repositories: ")
+          }
+
+          withStyle(
+            SpanStyle(
+              fontWeight = FontWeight.Bold,
+              fontFamily = FontFamily.Monospace
+            )
+          ) {
+            append("${State.Companion.Header.currentPublicRepos}")
           }
         }
       )
